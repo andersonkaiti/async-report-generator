@@ -7,6 +7,14 @@ provider:
   region: sa-east-1
   environment:
     LEADS_TABLE: !Ref LeadsTable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:Scan
+          Resource: !GetAtt LeadsTable.Arn
 
 package:
   individually: true
@@ -18,12 +26,13 @@ build:
     sourcemap: false
 
 functions:
-  hello:
-    handler: src/functions/hello.handler
+  populateDynamo:
+    handler: src/functions/populate-dynamo.handler
+    timeout: 25
     events:
       - httpApi:
-          path: /
-          method: GET
+          path: /populate-dynamo
+          method: POST
 
 resources:
   Resources:

@@ -7,6 +7,7 @@ provider:
   region: sa-east-1
   environment:
     LEADS_TABLE: !Ref LeadsTable
+    GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
   iam:
     role:
       statements:
@@ -47,3 +48,19 @@ resources:
           - KeyType: HASH
             AttributeName: id
         BillingMode: PAY_PER_REQUEST
+    
+    GenerateReportQueue: 
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: generate_report_queue
+        ReceiveMessageWaitTimeSeconds: 20
+        VisibilityTimeout: 180 # 60 seconds * 3
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt GenerateReportDLQ.Arn
+          maxReceiveCount: 2
+    
+    GenerateReportDLQ:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: generate_report_dlq
+        MessageRetentionPeriod: 1209600 # 14 days in seconds

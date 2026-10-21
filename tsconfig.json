@@ -25,9 +25,11 @@
 
     "paths": {
       "@/*": ["./src/*"],
+      "@clients/*": ["./src/clients/*"],
       "@functions/*": ["./src/functions/*"],
+      "@shared/*": ["./src/shared/*"],
       "@app-types/*": ["./src/types/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/shared/utils/*"]
     }
   }
 }

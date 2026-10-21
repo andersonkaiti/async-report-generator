@@ -13,6 +13,8 @@
     }
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1153.0",
+    "@aws-sdk/lib-dynamodb": "^3.1153.0",
     "@biomejs/biome": "2.5.15",
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",

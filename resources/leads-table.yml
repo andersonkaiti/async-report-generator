@@ -1,0 +1,12 @@
+Resources:
+  LeadsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: leads_table
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - KeyType: HASH
+          AttributeName: id
+      BillingMode: PAY_PER_REQUEST

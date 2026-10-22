@@ -48,31 +48,5 @@ functions:
           method: POST
 
 resources:
-  Resources:
-    LeadsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: leads_table
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - KeyType: HASH
-            AttributeName: id
-        BillingMode: PAY_PER_REQUEST
-    
-    GenerateReportQueue: 
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: generate_report_queue
-        ReceiveMessageWaitTimeSeconds: 20
-        VisibilityTimeout: 180 # 60 seconds * 3
-        RedrivePolicy:
-          deadLetterTargetArn: !GetAtt GenerateReportDLQ.Arn
-          maxReceiveCount: 2
-    
-    GenerateReportDLQ:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: generate_report_dlq
-        MessageRetentionPeriod: 1209600 # 14 days in seconds
+  - ${file(./resources/leads-table.yml)}
+  - ${file(./resources/generate-report-queue.yml)}

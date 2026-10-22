@@ -5,6 +5,7 @@ provider:
   runtime: nodejs24.x
   architecture: arm64
   region: sa-east-1
+  memorySize: 128
   environment:
     LEADS_TABLE: !Ref LeadsTable
     GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
@@ -16,6 +17,10 @@ provider:
             - dynamodb:PutItem
             - dynamodb:Scan
           Resource: !GetAtt LeadsTable.Arn
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: !GetAtt GenerateReportQueue.Arn
 
 package:
   individually: true
@@ -30,9 +35,16 @@ functions:
   populateDynamo:
     handler: src/functions/populate-dynamo.handler
     timeout: 25
+    memorySize: 1024
     events:
       - httpApi:
           path: /populate-dynamo
+          method: POST
+  generateReport:
+    handler: src/functions/generate-report.handler
+    events:
+      - httpApi:
+          path: /generate-report
           method: POST
 
 resources:

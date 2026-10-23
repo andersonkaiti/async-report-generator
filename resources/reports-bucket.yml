@@ -1,0 +1,14 @@
+Resources:
+  ReportsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: anderson-reports-bucket
+      LifecycleConfiguration:
+        Rules:
+          - Id: delete_object_after-1-day
+            ExpirationInDays: 1
+            Status: Enabled
+          - Id: abort_multipart_after-1-day
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 1
+            Status: Enabled

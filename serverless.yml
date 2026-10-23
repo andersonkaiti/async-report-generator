@@ -50,3 +50,4 @@ functions:
 resources:
   - ${file(./resources/leads-table.yml)}
   - ${file(./resources/generate-report-queue.yml)}
+  - ${file(./resources/reports-bucket.yml)}

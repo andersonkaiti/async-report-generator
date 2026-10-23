@@ -26,10 +26,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@clients/*": ["./src/clients/*"],
+      "@database/*": ["./src/database/*"],
+      "@factories/*": ["./src/factories/*"],
       "@functions/*": ["./src/functions/*"],
       "@shared/*": ["./src/shared/*"],
-      "@app-types/*": ["./src/types/*"],
-      "@utils/*": ["./src/shared/utils/*"]
+      "@app-types/*": ["./src/types/*"]
     }
   }
 }

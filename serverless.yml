@@ -9,6 +9,7 @@ provider:
   environment:
     LEADS_TABLE: !Ref LeadsTable
     GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
+    REPORTS_BUCKET_NAME: !Ref ReportsBucket
   iam:
     role:
       statements:
@@ -17,6 +18,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:Scan
           Resource: !GetAtt LeadsTable.Arn
+
         - Effect: Allow
           Action:
             - sqs:SendMessage
@@ -46,6 +48,14 @@ functions:
       - httpApi:
           path: /generate-report
           method: POST
+  processReport:
+    handler: src/functions/queues/process-report.handler
+    timeout: 180
+    memorySize: 1024
+    events:
+      - sqs:
+          arn: !GetAtt GenerateReportQueue.Arn
+          batchSize: 1
 
 resources:
   - ${file(./resources/leads-table.yml)}

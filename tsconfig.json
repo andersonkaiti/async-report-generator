@@ -30,6 +30,7 @@
       "@factories/*": ["./src/factories/*"],
       "@functions/*": ["./src/functions/*"],
       "@shared/*": ["./src/shared/*"],
+      "@storage/*": ["./src/storage/*"],
       "@app-types/*": ["./src/types/*"]
     }
   }

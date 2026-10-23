@@ -24,6 +24,13 @@ provider:
             - sqs:SendMessage
           Resource: !GetAtt GenerateReportQueue.Arn
 
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:AbortMultipartUpload
+          Resource: !Sub '${ReportsBucket.Arn}/*'
+
 package:
   individually: true
 

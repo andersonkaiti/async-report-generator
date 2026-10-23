@@ -3,7 +3,7 @@ import { PutCommand } from '@aws-sdk/lib-dynamodb'
 import { dynamoDBClient } from '@clients/dynamo.client'
 import { faker } from '@faker-js/faker'
 import { env } from '@shared/config/env'
-import { response } from '@utils/response'
+import { response } from '@shared/utils/response'
 
 export async function handler() {
   const totalUsers = 5_000

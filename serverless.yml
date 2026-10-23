@@ -33,7 +33,7 @@ build:
 
 functions:
   populateDynamo:
-    handler: src/functions/populate-dynamo.handler
+    handler: src/functions/http/populate-dynamo.handler
     timeout: 25
     memorySize: 1024
     events:
@@ -41,7 +41,7 @@ functions:
           path: /populate-dynamo
           method: POST
   generateReport:
-    handler: src/functions/generate-report.handler
+    handler: src/functions/http/generate-report.handler
     events:
       - httpApi:
           path: /generate-report

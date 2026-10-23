@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto'
 import { getLeadsGenerator } from '@database/get-leads-generator'
 import { makeMPUManager } from '@factories/mpu.manager.factory'
 import { env } from '@shared/config/env'
+import { getPresignedURL } from '@shared/utils/get-presigned-url'
+import { sendEmail } from '@shared/utils/send-email'
 
 const ONE_KILOBYTE = 1024
 const ONE_MEGABYTE = 1024 * ONE_KILOBYTE
@@ -44,4 +46,24 @@ export async function handler() {
   } catch {
     await mpuManager.abort()
   }
+
+  const presignedURL = await getPresignedURL({
+    bucket: env.REPORTS_BUCKET_NAME,
+    fileKey,
+  })
+
+  await sendEmail({
+    from: 'Acme <onboarding@resend.dev>',
+    to: ['delivered@resend.dev'],
+    subject: 'O seu relatório já está pronto!',
+    text: `Aqui está o seu relatório (a URL é válida por apenas 25 horas): ${presignedURL}`,
+
+    html: `
+      <h1 style="font-size:32px;font-weight:bold;">Seu relatório ficou pronto!</h1>
+      <br />
+      <a href=${presignedURL}>Clique aqui para baixar!</a>
+      <br /><br />
+      <small>Este link é válido por apenas 24 horas./<small>
+    `,
+  })
 }

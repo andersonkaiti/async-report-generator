@@ -1,5 +1,7 @@
 service: async-report-generator
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs24.x
@@ -10,6 +12,7 @@ provider:
     LEADS_TABLE: !Ref LeadsTable
     GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
     REPORTS_BUCKET_NAME: !Ref ReportsBucket
+    RESEND_API_KEY: ${env:RESEND_API_KEY}
   iam:
     role:
       statements:
